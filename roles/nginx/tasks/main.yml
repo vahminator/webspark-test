@@ -1,0 +1,24 @@
+---
+# tasks file for nginx
+
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  become: yes
+
+- name: Install Nginx of Ubuntu 20.04
+  apt: name=nginx update_cache=yes state=latest
+  notify: restart nginx
+
+- name: Update nginx confs for WordPress + PHP
+  template: "src=../templates/nginx-wp-common.conf dest=/etc/nginx/nginx-wp-common.conf owner=www-data group=www-data mode=0644"
+  become: yes
+
+- name: Update nginx confs for WordPress + PHP
+  template: "src=../templates/default-site.conf dest=/etc/nginx/sites-available/{{server_hostname}} owner=www-data group=www-data mode=0644"
+  become: yes
+
+- name: Enable site
+  file: src=/etc/nginx/sites-available/{{server_hostname}} dest=/etc/nginx/sites-enabled/{{server_hostname}} owner=www-data group=www-data state=link
+  notify:
+    - restart nginx
+  become: yes

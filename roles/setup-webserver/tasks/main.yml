@@ -1,0 +1,4 @@
+- name: Update Ubuntu.
+  include_tasks: update.yml
+  when:
+    - ansible_distribution == 'Ubuntu'

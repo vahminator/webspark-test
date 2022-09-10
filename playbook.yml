@@ -1,0 +1,12 @@
+---
+- name: Install Nginx, PHP-FPM, MySQL
+  hosts: webserver
+  become: yes
+
+  roles:
+    - setup-webserver
+    - nginx
+    - php
+    - mysql
+    - wordpress
+    - ansible-csf-security

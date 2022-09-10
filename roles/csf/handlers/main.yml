@@ -1,0 +1,4 @@
+---
+# handlers file for csf-security
+- name: Restart CSF
+  shell: csf -r

@@ -3,17 +3,29 @@ wp_db_name: wordpress
 wp_db_user: wordpress
 wp_db_password: wordpress_db_password
 
+# DB root user
+mysql_wp_user: "root"
+mysql_wp_name: "Ivan Ivanov"
+mysql_wp_password: 123456
+
 # MySQL settings
 mysql_port: 3306
 mysql_root_password: "root"
 
 auto_up_disable: true
 
-server_hostname: webspark.vahm.in.ua
+server_hostname: domain.com
 
 # WordPress Version
 wp_version: latest
 wp_character : ru_RU
-wp_sha1sum: fbe0ee1d9010265be200fe50b86f341587187302
+wp_sha1sum: 72f9601b78cc0ad206ff19c9a235364cf3388b4d
 
 core_update_level: true
+
+
+users:
+  - name: ivan_ivanov
+    email: ivan_ivanov@123.com
+    password: 123dfbdfb123
+    role: author

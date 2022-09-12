@@ -14,15 +14,15 @@
 
 - name: Download WordPress
   get_url: 
-    url: https://wordpress.org/wordpress-{{ wp_version }}-{{ wp_character }}.tar.gz 
-    dest: /tmp/wordpress-{{ wp_version }}.tar.gz 
+    url: https://ru.wordpress.org/latest-{{ wp_character }}.tar.gz 
+    dest: /tmp/latest-{{ wp_character }}.tar.gz 
     checksum: "sha1:{{ wp_sha1sum }}" 
   become: yes
   when: not check_path.stat.exists
 
 - name: Extract WordPress
   unarchive:
-    src: /tmp/wordpress-{{ wp_version }}.tar.gz
+    src: /tmp/latest-{{ wp_character }}.tar.gz
     dest: /tmp
     owner: www-data
     group: www-data
@@ -54,3 +54,15 @@
     - {'regexp': "define\\('DB_USER', '(.)+'\\);", 'line': "define('DB_USER', '{{wp_db_user}}');"}
     - {'regexp': "define\\('DB_PASSWORD', '(.)+'\\);", 'line': "define('DB_PASSWORD', '{{wp_db_password}}');"}
   become: yes
+
+- name: Download wp-cli.phar
+  get_url:
+    url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    dest: "/srv/www/{{server_hostname}}/"
+    mode: 0777
+    owner: www-data
+    group: www-data
+
+- name: Create WP user
+  shell: /srv/www/{{server_hostname}}/wp-cli.phar user create {{ item.name }} {{ item.email }} --user_pass={{ item.password }} --role={{ item.role }} --path=/srv/www/{{server_hostname}}/ --allow-root
+  with_items: "{{users}}"

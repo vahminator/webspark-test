@@ -5,22 +5,22 @@
     name: "{{ item }}"
   with_items:
     - mysql-server
+    - default-libmysqlclient-dev
     
-# - name: Install python package
-#   ansible.builtin.pip:
-#     name: "{{ item }}"
-#   with_items: 
-#     - PyMySQL
-#     - mysqlclient
+- name: Install python package
+  ansible.builtin.pip:
+    name: "{{ item }}"
+  with_items: 
+    - mysqlclient
 
 - name: Start the MySQL service
   action: service name=mysql state=started
 
-- name: Ensure no user named 'sally'@'localhost' exists, also passing in the auth credentials
+- name: Ensure no user named 'root'@'localhost' exists, also passing in the auth credentials
   community.mysql.mysql_user:
-    login_user: root
+    login_user:  root
     login_password: 123456
-    name: root
+    name: root_name
     state: absent
 
 - name: Copy .my.cnf file with root password credentials

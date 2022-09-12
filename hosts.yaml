@@ -1,6 +1,6 @@
 webspark:
   hosts:
     webserver:
-      ansible_host: 3.71.28.20
+      ansible_host: <IP host>
       ansible_user: ubuntu
-      ansible_ssh_private_key_file: ~/Downloads/vahm.pem
+      ansible_ssh_private_key_file: ~/my.pem
